@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="template">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div layout:fragment="content">
+	<div class="container">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Liste des Entreprises</div>
+			<div class="panel-body">
+			<div class="container">
+			<form th:action="@{/entreprises}" method="get">
+				<label >Mot Cle:</label>
+				<input type="text" name="mc"/>
+				<button type="submit" class="btn btn-primary">Chercher</button>
+			</form>
+			</div>
+				<table class="table tabel-striped">
+		<tr>
+			<th>Code</th><th>Nom</th><th>Raison Sociale</th><th>Email</th><th>Taxes</th>
+		</tr>
+		<tr th:each="e:${listEnreprises}">
+			<td th:text="${e.code}"></td>
+			<td th:text="${e.nom}"></td>
+			<td th:text="${e.raisonSociale}"></td>
+			<td th:text="${e.email}"></td>
+			<td>
+			<a th:href="@{/taxes(code=${e.code})}">Taxes</a>
+			</td>
+			
+		</tr>
+		</table>
+			</div>
+			</div>
+		</div>
+		<div>
+			<ul  class="nav nav-pills">
+				<li th:class="${pageCourante==status.index}?'active':''" th:each="p,status:${pages}" >
+				<a th:href="@{/entreprises(page=${status.index},size=5,mc=${motCle})}" th:text="${status.index}"></a>
+				</li>
+			</ul>
+		</div>
+		
+	</div>
+</body>
+</html>
